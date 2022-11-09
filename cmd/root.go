@@ -8,11 +8,15 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/bigbird023/fortify-xml-parser-to-excel/converter"
+	"github.com/bigbird023/fortify-xml-parser-to-excel/xml"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var cfgFile string
+var cfgInput string
+var cfgOutput string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -24,7 +28,14 @@ var rootCmd = &cobra.Command{
 	`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) { fmt.Println("Hello CLI") },
+	Run: func(cmd *cobra.Command, args []string) {
+		fxp := xml.NewFortifyXmlParser()
+		c := converter.NewConverter(cfgInput, cfgOutput, fxp)
+		err := c.Convert()
+		if err != nil {
+			fmt.Print(err)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -43,7 +54,9 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.fortifyxmlparsertoexcel.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "$HOME/.fortifyxmlparsertoexcel.yaml", "config file (default is $HOME/.fortifyxmlparsertoexcel.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgInput, "input", "", "config file (default is blank)")
+	rootCmd.PersistentFlags().StringVar(&cfgOutput, "output", "", "config file (default is blank)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -60,7 +73,7 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".gosharepointuploader" (without extension).
+		// Search config in home directory with name ".fortifyxmlparsertoexcel" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".fortifyxmlparsertoexcel")

@@ -66,7 +66,4 @@ func TestXmlParse(t *testing.T) {
 		t.Log("ReportSection length should not be 0")
 		t.Fail()
 	}
-
-	t.Log(reportDef)
-
 }

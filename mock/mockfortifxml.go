@@ -47,7 +47,7 @@ func NewReportDefinition() *xml.ReportDefinition {
 			<SubSection enabled="true">
 				<Title>Report Summary</Title>
 				<Description>This provides a high level summary of the findings that the analysis produced.  Also includes basic information on the scope of the scan.</Description>
-				<Text>On Sep 13, 2022, a source code review was performed over the UT_JAVA_Adhoc_Sep_13_2022_15_16 code base. 1,697 files, 182,494 LOC (Executable) were scanned. A total of 14119 issues were uncovered during the analysis.  This report provides a comprehensive description of all the types of issues found in this project.  Specific examples and source code are provided for each issue type.</Text>
+				<Text>On Sep 13, 2022, a source code review was performed over the example_JAVA_Adhoc_Sep_13_2022_15_16 code base. 1,697 files, 182,494 LOC (Executable) were scanned. A total of 14119 issues were uncovered during the analysis.  This report provides a comprehensive description of all the types of issues found in this project.  Specific examples and source code are provided for each issue type.</Text>
 			</SubSection>
 			<SubSection enabled="true">
 				<Title>Issue Summary by Fortify Priority Order</Title>
@@ -186,7 +186,7 @@ func NewReportDefinition() *xml.ReportDefinition {
 								<Friority>Low</Friority>
 								<Primary>
 	<FileName>SecurityUtil.java</FileName>
-	<FilePath>CNSI-JAR/src/com/cnsi/security/common/SecurityUtil.java</FilePath>
+	<FilePath>EXAMPLE-JAR/src/com/EXAMPLE/security/common/SecurityUtil.java</FilePath>
 	<LineStart>411</LineStart>
 	<Snippet>        else
 				b_objDispMsgBean.addMsgDetail(p_sMsgCode, p_arMsgParams);
@@ -197,7 +197,7 @@ func NewReportDefinition() *xml.ReportDefinition {
 								</Primary>
 								<Source>
 	<FileName>RequestSessionUtil.java</FileName>
-	<FilePath>CNSI-JAR/src/com/cnsi/common/util/RequestSessionUtil.java</FilePath>
+	<FilePath>EXAMPLE-JAR/src/com/EXAMPLE/common/util/RequestSessionUtil.java</FilePath>
 	<LineStart>249</LineStart>
 	<Snippet>        try
 			{
@@ -215,7 +215,7 @@ func NewReportDefinition() *xml.ReportDefinition {
 								<Friority>Low</Friority>
 								<Primary>
 	<FileName>SecurityUtil.java</FileName>
-	<FilePath>CNSI-JAR/src/com/cnsi/security/common/SecurityUtil.java</FilePath>
+	<FilePath>EXAMPLE-JAR/src/com/EXAMPLE/security/common/SecurityUtil.java</FilePath>
 	<LineStart>411</LineStart>
 	<Snippet>        else
 				b_objDispMsgBean.addMsgDetail(p_sMsgCode, p_arMsgParams);
@@ -225,8 +225,8 @@ func NewReportDefinition() *xml.ReportDefinition {
 	<TargetFunction>javax.servlet.ServletRequest.setAttribute()</TargetFunction>
 								</Primary>
 								<Source>
-	<FileName>EHRRequestHandler.java</FileName>
-	<FilePath>EHR-JAR/src/com/ehr/web/action/EHRRequestHandler.java</FilePath>
+	<FileName>exampleRequestHandler.java</FileName>
+	<FilePath>example-JAR/src/com/example/web/action/exampleRequestHandler.java</FilePath>
 	<LineStart>50</LineStart>
 	<Snippet>    	
 			try {
@@ -241,7 +241,7 @@ func NewReportDefinition() *xml.ReportDefinition {
 				</IssueListing>
 			</SubSection>
 		</ReportSection>
-	</ReportDefinition>
+	</ReportDefinition>	
 	`
 
 	byteValue := []byte(xmlDoc)

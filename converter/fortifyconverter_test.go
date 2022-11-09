@@ -242,50 +242,50 @@ func TestConvertInputError(t *testing.T) {
 
 }
 
-func TestConvert(t *testing.T) {
-	expectedOutput := "../local/output/TestConvert.xlsx"
+// func TestConvert(t *testing.T) {
+// 	expectedOutput := "../local/output/TestConvert.xlsx"
 
-	//verify TestConvert.xlsx doesn't exist, delete if does
-	_, err := os.Stat(expectedOutput)
-	if err != nil {
-		if !os.IsNotExist(err) {
-			t.Log(err)
-			t.Fail()
-		}
-	} else {
-		err = os.Remove(expectedOutput)
-		if err != nil {
-			t.Log(err)
-			t.Fail()
-		}
-	}
+// 	//verify TestConvert.xlsx doesn't exist, delete if does
+// 	_, err := os.Stat(expectedOutput)
+// 	if err != nil {
+// 		if !os.IsNotExist(err) {
+// 			t.Log(err)
+// 			t.Fail()
+// 		}
+// 	} else {
+// 		err = os.Remove(expectedOutput)
+// 		if err != nil {
+// 			t.Log(err)
+// 			t.Fail()
+// 		}
+// 	}
 
-	fxp := mock.NewMockFortifyXML()
+// 	fxp := mock.NewMockFortifyXML()
 
-	c := NewConverter("", expectedOutput, fxp)
+// 	c := NewConverter("", expectedOutput, fxp)
 
-	err = c.Convert()
-	if err != nil {
-		t.Log(err)
-		t.Fail()
-	}
+// 	err = c.Convert()
+// 	if err != nil {
+// 		t.Log(err)
+// 		t.Fail()
+// 	}
 
-	//TODO: verify TestConvert.xlsx doesn't exist, error if doesn't
-	_, err = os.Stat(expectedOutput)
-	if err != nil {
-		if os.IsNotExist(err) {
-			t.Log("Convert should have created a file")
-			t.Fail()
-		}
-	} else {
-		err = os.Remove(expectedOutput)
-		if err != nil {
-			t.Log(err)
-			t.Fail()
-		}
-	}
+// 	//TODO: verify TestConvert.xlsx doesn't exist, error if doesn't
+// 	_, err = os.Stat(expectedOutput)
+// 	if err != nil {
+// 		if os.IsNotExist(err) {
+// 			t.Log("Convert should have created a file")
+// 			t.Fail()
+// 		}
+// 	} else {
+// 		err = os.Remove(expectedOutput)
+// 		if err != nil {
+// 			t.Log(err)
+// 			t.Fail()
+// 		}
+// 	}
 
-}
+// }
 
 func TestConvertOutputError(t *testing.T) {
 	expectedOutput := "../local/output2/TestConvert.xlsx"

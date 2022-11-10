@@ -11,6 +11,11 @@ on:
 
 jobs:
 
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -31,4 +36,10 @@ jobs:
       uses: sonatype-nexus-community/nancy-github-action@main
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v -json ./... > TestResults-${{ matrix.go-version }}.json
+
+    - name: Upload Go test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: Go-Results
+        path: TestResults.json

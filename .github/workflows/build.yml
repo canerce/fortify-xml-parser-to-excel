@@ -1,7 +1,7 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Go
+name: Build Main
 
 on:
   push:
@@ -11,12 +11,8 @@ on:
 
 jobs:
 
-  checkout:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
   build:
+    name: Build Application
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -29,11 +25,19 @@ jobs:
     - name: Build
       run: go build -v ./...
 
+
+  unittest:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
     - name: WriteGoList
       run: go list -json -m all > go.list
-
-    - name: Nancy
-      uses: sonatype-nexus-community/nancy-github-action@main
 
     - name: Test
       run: go test -v -json ./... > TestResults-${{ matrix.go-version }}.json
@@ -43,3 +47,12 @@ jobs:
       with:
         name: Go-Results
         path: TestResults.json
+
+  codestandards:
+    name: Code Standards
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Nancy
+      uses: sonatype-nexus-community/nancy-github-action@main

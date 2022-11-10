@@ -1,4 +1,4 @@
-# fortify-parser-xml-to-excel
+# fortify-xml-parser-to-excel
 
 Linux Command
 ./fortify-parser-xml-to-excel --input ./file.xml --output ./output.xlsx

@@ -9,5 +9,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
-uses:
-  bigbird023/github-actions/.github/workflows/go/build-workflow.yaml@main
+jobs:
+  build:
+    uses:
+      bigbird023/github-actions/.github/workflows/go/build-workflow.yaml@main

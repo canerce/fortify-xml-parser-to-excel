@@ -3,7 +3,8 @@ package converter
 import (
 	"fmt"
 
-	"github.com/bigbird023/fortify-xml-parser-to-excel/xml"
+	"github.com/bigbird023/fortify-xml-parser-to-excel/data"
+	"github.com/bigbird023/fortify-xml-parser-to-excel/parser"
 	"github.com/plandem/ooxml"
 	"github.com/plandem/xlsx"
 )
@@ -13,11 +14,11 @@ type (
 		header     []string
 		inputFile  string
 		outputFile string
-		fortifyxml xml.FortifyXMLInterface
+		fortifyxml parser.FortifyXMLInterface
 	}
 )
 
-func NewConverter(input string, output string, fxp xml.FortifyXMLInterface) *FortifyConverter {
+func NewConverter(input string, output string, fxp parser.FortifyXMLInterface) *FortifyConverter {
 	conv := &FortifyConverter{
 		header:     []string{"Iid", "RuleId", "Category", "Folder", "Kingdom", "Abstract", "Friority", "Primary.Filename", "Primary.FilePath", "Primary.LineStart", "Primary.Snippet", "Primary.TargetFunction", "Source.Filename", "Source.FilePath", "Source.LineStart", "Source.Snippet", "Source.TargetFunction"},
 		inputFile:  input,
@@ -75,7 +76,7 @@ func (c *FortifyConverter) headerToExcel(sheet xlsx.Sheet) {
 	}
 }
 
-func (c *FortifyConverter) issueToExcel(issue *xml.Issue, sheet xlsx.Sheet) error {
+func (c *FortifyConverter) issueToExcel(issue *data.Issue, sheet xlsx.Sheet) error {
 
 	_, totalRows := sheet.Dimension()
 	row := sheet.Row(totalRows - 1)

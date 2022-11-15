@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/bigbird023/fortify-xml-parser-to-excel/converter"
-	"github.com/bigbird023/fortify-xml-parser-to-excel/xml"
+	"github.com/bigbird023/fortify-xml-parser-to-excel/parser"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -29,7 +29,7 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		fxp := xml.NewFortifyXmlParser()
+		fxp := parser.NewFortifyXmlParser()
 		c := converter.NewConverter(cfgInput, cfgOutput, fxp)
 		err := c.Convert()
 		if err != nil {

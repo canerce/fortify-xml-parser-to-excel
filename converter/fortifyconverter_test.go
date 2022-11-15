@@ -4,8 +4,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/bigbird023/fortify-xml-parser-to-excel/data"
 	"github.com/bigbird023/fortify-xml-parser-to-excel/mock"
-	"github.com/bigbird023/fortify-xml-parser-to-excel/xml"
+	"github.com/bigbird023/fortify-xml-parser-to-excel/parser"
 	"github.com/plandem/xlsx"
 )
 
@@ -55,29 +56,7 @@ func TestIssueToExcel(t *testing.T) {
 	excelFile := xlsx.New()
 	sheet := excelFile.AddSheet("fortifyIssues")
 
-	issue := &xml.Issue{
-		Iid:      "iid",
-		RuleID:   "ruleid",
-		Category: "category",
-		Folder:   "folder",
-		Kingdom:  "kingdom",
-		Abstract: "abstract",
-		Friority: "friority",
-		Primary: xml.CodeInfo{
-			FileName:       "filename",
-			FilePath:       "filepath",
-			LineStart:      "linestart",
-			Snippet:        "snippet",
-			TargetFunction: "targetfunction",
-		},
-		Source: xml.CodeInfo{
-			FileName:       "filename",
-			FilePath:       "filepath",
-			LineStart:      "linestart",
-			Snippet:        "snippet",
-			TargetFunction: "targetfunction",
-		},
-	}
+	issue := newTestFortifyIssue()
 
 	c.issueToExcel(issue, sheet)
 
@@ -93,25 +72,7 @@ func TestIssueToExcel(t *testing.T) {
 	}
 	row := sheet.Row(rows - 1)
 
-	col := -1
-	compareNextColValue(t, &col, row, issue.Iid)
-	compareNextColValue(t, &col, row, issue.RuleID)
-	compareNextColValue(t, &col, row, issue.Category)
-	compareNextColValue(t, &col, row, issue.Folder)
-	compareNextColValue(t, &col, row, issue.Kingdom)
-	compareNextColValue(t, &col, row, issue.Abstract)
-	compareNextColValue(t, &col, row, issue.Friority)
-	compareNextColValue(t, &col, row, issue.Primary.FileName)
-	compareNextColValue(t, &col, row, issue.Primary.FilePath)
-	compareNextColValue(t, &col, row, issue.Primary.LineStart)
-	compareNextColValue(t, &col, row, issue.Primary.Snippet)
-	compareNextColValue(t, &col, row, issue.Primary.TargetFunction)
-	compareNextColValue(t, &col, row, issue.Source.FileName)
-	compareNextColValue(t, &col, row, issue.Source.FilePath)
-	compareNextColValue(t, &col, row, issue.Source.LineStart)
-	compareNextColValue(t, &col, row, issue.Source.Snippet)
-	compareNextColValue(t, &col, row, issue.Source.TargetFunction)
-
+	assertRowToIssue(t, row, issue)
 }
 
 func TestHeaderAndIssueToExcel(t *testing.T) {
@@ -121,29 +82,7 @@ func TestHeaderAndIssueToExcel(t *testing.T) {
 	excelFile := xlsx.New()
 	sheet := excelFile.AddSheet("fortifyIssues")
 
-	issue := &xml.Issue{
-		Iid:      "iid",
-		RuleID:   "ruleid",
-		Category: "category",
-		Folder:   "folder",
-		Kingdom:  "kingdom",
-		Abstract: "abstract",
-		Friority: "friority",
-		Primary: xml.CodeInfo{
-			FileName:       "filename",
-			FilePath:       "filepath",
-			LineStart:      "linestart",
-			Snippet:        "snippet",
-			TargetFunction: "targetfunction",
-		},
-		Source: xml.CodeInfo{
-			FileName:       "filename",
-			FilePath:       "filepath",
-			LineStart:      "linestart",
-			Snippet:        "snippet",
-			TargetFunction: "targetfunction",
-		},
-	}
+	issue := newTestFortifyIssue()
 
 	c.headerToExcel(sheet)
 
@@ -165,31 +104,13 @@ func TestHeaderAndIssueToExcel(t *testing.T) {
 	}
 	row := sheet.Row(rows - 1)
 
-	col := -1
-	compareNextColValue(t, &col, row, issue.Iid)
-	compareNextColValue(t, &col, row, issue.RuleID)
-	compareNextColValue(t, &col, row, issue.Category)
-	compareNextColValue(t, &col, row, issue.Folder)
-	compareNextColValue(t, &col, row, issue.Kingdom)
-	compareNextColValue(t, &col, row, issue.Abstract)
-	compareNextColValue(t, &col, row, issue.Friority)
-	compareNextColValue(t, &col, row, issue.Primary.FileName)
-	compareNextColValue(t, &col, row, issue.Primary.FilePath)
-	compareNextColValue(t, &col, row, issue.Primary.LineStart)
-	compareNextColValue(t, &col, row, issue.Primary.Snippet)
-	compareNextColValue(t, &col, row, issue.Primary.TargetFunction)
-	compareNextColValue(t, &col, row, issue.Source.FileName)
-	compareNextColValue(t, &col, row, issue.Source.FilePath)
-	compareNextColValue(t, &col, row, issue.Source.LineStart)
-	compareNextColValue(t, &col, row, issue.Source.Snippet)
-	compareNextColValue(t, &col, row, issue.Source.TargetFunction)
-
+	assertRowToIssue(t, row, issue)
 }
 
 func TestWriteToExcel(t *testing.T) {
 
 	expected := "./local/output/testwritetoexcel.xlsx"
-	fxp := xml.NewFortifyXmlParser()
+	fxp := parser.NewFortifyXmlParser()
 
 	c := NewConverter("", expected, fxp)
 
@@ -211,7 +132,7 @@ func TestWriteToExcel(t *testing.T) {
 func TestWriteToExcelError(t *testing.T) {
 
 	expected := "./local/output/testwritetoexcel.xlsx"
-	fxp := xml.NewFortifyXmlParser()
+	fxp := parser.NewFortifyXmlParser()
 
 	c := NewConverter("", expected, fxp)
 
@@ -230,7 +151,7 @@ func TestConvertInputError(t *testing.T) {
 
 	expectedInput := "./local/test/testmissing.xml"
 	expectedOutput := "./local/output/testwritetoexcel.xlsx"
-	fxp := xml.NewFortifyXmlParser()
+	fxp := parser.NewFortifyXmlParser()
 
 	c := NewConverter(expectedInput, expectedOutput, fxp)
 
@@ -241,51 +162,6 @@ func TestConvertInputError(t *testing.T) {
 	}
 
 }
-
-// func TestConvert(t *testing.T) {
-// 	expectedOutput := "../local/output/TestConvert.xlsx"
-
-// 	//verify TestConvert.xlsx doesn't exist, delete if does
-// 	_, err := os.Stat(expectedOutput)
-// 	if err != nil {
-// 		if !os.IsNotExist(err) {
-// 			t.Log(err)
-// 			t.Fail()
-// 		}
-// 	} else {
-// 		err = os.Remove(expectedOutput)
-// 		if err != nil {
-// 			t.Log(err)
-// 			t.Fail()
-// 		}
-// 	}
-
-// 	fxp := mock.NewMockFortifyXML()
-
-// 	c := NewConverter("", expectedOutput, fxp)
-
-// 	err = c.Convert()
-// 	if err != nil {
-// 		t.Log(err)
-// 		t.Fail()
-// 	}
-
-// 	//TODO: verify TestConvert.xlsx doesn't exist, error if doesn't
-// 	_, err = os.Stat(expectedOutput)
-// 	if err != nil {
-// 		if os.IsNotExist(err) {
-// 			t.Log("Convert should have created a file")
-// 			t.Fail()
-// 		}
-// 	} else {
-// 		err = os.Remove(expectedOutput)
-// 		if err != nil {
-// 			t.Log(err)
-// 			t.Fail()
-// 		}
-// 	}
-
-// }
 
 func TestConvertOutputError(t *testing.T) {
 	expectedOutput := "../local/output2/TestConvert.xlsx"
@@ -305,7 +181,7 @@ func TestConvertOutputError(t *testing.T) {
 		}
 	}
 
-	fxp := mock.NewMockFortifyXML()
+	fxp := mock.NewMockFortifyXMLParser()
 
 	c := NewConverter("", expectedOutput, fxp)
 
@@ -335,7 +211,7 @@ func TestConvertIssueToExcelError(t *testing.T) {
 		}
 	}
 
-	fxp := mock.NewMockFortifyXML()
+	fxp := mock.NewMockFortifyXMLParser()
 	fxp.EmptyReportDefinition = true
 
 	c := NewConverter("", expectedOutput, fxp)
@@ -346,4 +222,51 @@ func TestConvertIssueToExcelError(t *testing.T) {
 		t.Fail()
 	}
 
+}
+
+func newTestFortifyIssue() *data.Issue {
+	return &data.Issue{
+		Iid:      "iid",
+		RuleID:   "ruleid",
+		Category: "category",
+		Folder:   "folder",
+		Kingdom:  "kingdom",
+		Abstract: "abstract",
+		Friority: "friority",
+		Primary: data.CodeInfo{
+			FileName:       "filename",
+			FilePath:       "filepath",
+			LineStart:      "linestart",
+			Snippet:        "snippet",
+			TargetFunction: "targetfunction",
+		},
+		Source: data.CodeInfo{
+			FileName:       "filename",
+			FilePath:       "filepath",
+			LineStart:      "linestart",
+			Snippet:        "snippet",
+			TargetFunction: "targetfunction",
+		},
+	}
+}
+
+func assertRowToIssue(t *testing.T, row *xlsx.Row, issue *data.Issue) {
+	col := -1
+	compareNextColValue(t, &col, row, issue.Iid)
+	compareNextColValue(t, &col, row, issue.RuleID)
+	compareNextColValue(t, &col, row, issue.Category)
+	compareNextColValue(t, &col, row, issue.Folder)
+	compareNextColValue(t, &col, row, issue.Kingdom)
+	compareNextColValue(t, &col, row, issue.Abstract)
+	compareNextColValue(t, &col, row, issue.Friority)
+	compareNextColValue(t, &col, row, issue.Primary.FileName)
+	compareNextColValue(t, &col, row, issue.Primary.FilePath)
+	compareNextColValue(t, &col, row, issue.Primary.LineStart)
+	compareNextColValue(t, &col, row, issue.Primary.Snippet)
+	compareNextColValue(t, &col, row, issue.Primary.TargetFunction)
+	compareNextColValue(t, &col, row, issue.Source.FileName)
+	compareNextColValue(t, &col, row, issue.Source.FilePath)
+	compareNextColValue(t, &col, row, issue.Source.LineStart)
+	compareNextColValue(t, &col, row, issue.Source.Snippet)
+	compareNextColValue(t, &col, row, issue.Source.TargetFunction)
 }

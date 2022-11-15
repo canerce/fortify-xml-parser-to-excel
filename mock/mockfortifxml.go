@@ -4,28 +4,28 @@ import (
 	exml "encoding/xml"
 	"fmt"
 
-	"github.com/bigbird023/fortify-xml-parser-to-excel/xml"
+	"github.com/bigbird023/fortify-xml-parser-to-excel/data"
 )
 
-type MockFortifyXml struct {
+type MockFortifyXmlParser struct {
 	EmptyReportDefinition bool
 	ForceError            bool
 }
 
-func NewMockFortifyXML() *MockFortifyXml {
-	return &MockFortifyXml{
+func NewMockFortifyXMLParser() *MockFortifyXmlParser {
+	return &MockFortifyXmlParser{
 		EmptyReportDefinition: false,
 		ForceError:            false,
 	}
 }
 
-func (m *MockFortifyXml) XmlParse(inputFile string) (*xml.ReportDefinition, error) {
+func (m *MockFortifyXmlParser) XmlParse(inputFile string) (*data.ReportDefinition, error) {
 	if m.ForceError {
 		return nil, fmt.Errorf("forced error")
 	}
-	var rd *xml.ReportDefinition
+	var rd *data.ReportDefinition
 	if m.EmptyReportDefinition {
-		rd = &xml.ReportDefinition{}
+		rd = &data.ReportDefinition{}
 	} else {
 		rd = NewReportDefinition()
 	}
@@ -33,7 +33,7 @@ func (m *MockFortifyXml) XmlParse(inputFile string) (*xml.ReportDefinition, erro
 	return rd, nil
 }
 
-func NewReportDefinition() *xml.ReportDefinition {
+func NewReportDefinition() *data.ReportDefinition {
 
 	xmlDoc := `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 	<ReportDefinition type="standard">
@@ -246,7 +246,7 @@ func NewReportDefinition() *xml.ReportDefinition {
 
 	byteValue := []byte(xmlDoc)
 
-	var reportDefinition *xml.ReportDefinition
+	var reportDefinition *data.ReportDefinition
 
 	exml.Unmarshal(byteValue, &reportDefinition)
 

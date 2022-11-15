@@ -1,4 +1,4 @@
-package xml
+package parser
 
 import (
 	"testing"

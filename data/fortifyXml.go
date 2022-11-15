@@ -1,23 +1,8 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+package data
 
-*/
-package xml
-
-import (
-	"encoding/xml"
-	"io/ioutil"
-	"os"
-)
+import "encoding/xml"
 
 type (
-	FortifyXMLInterface interface {
-		XmlParse(inputFile string) (*ReportDefinition, error)
-	}
-
-	FortifyXml struct {
-	}
-
 	ReportDefinition struct {
 		XMLName       xml.Name `xml:"ReportDefinition"`
 		Text          string   `xml:",chardata"`
@@ -103,31 +88,3 @@ type (
 		TargetFunction string `xml:"TargetFunction"`
 	}
 )
-
-func NewFortifyXmlParser() FortifyXMLInterface {
-	return &FortifyXml{}
-}
-
-func (f *FortifyXml) XmlParse(inputFile string) (*ReportDefinition, error) {
-
-	// Open xmlFile
-	xmlFile, err := os.Open(inputFile)
-	if err != nil {
-		return nil, err
-	}
-
-	// defer the closing of our xmlFile so that we can parse it later on
-	defer xmlFile.Close()
-
-	// read our opened xmlFile as a byte array.
-	byteValue, _ := ioutil.ReadAll(xmlFile)
-
-	// we initialize our Users array
-	var reportDefinition ReportDefinition
-	// we unmarshal our byteArray which contains our
-	// xmlFiles content into 'users' which we defined above
-	xml.Unmarshal(byteValue, &reportDefinition)
-
-	return &reportDefinition, nil
-
-}

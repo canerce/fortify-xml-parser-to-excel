@@ -15,5 +15,7 @@ jobs:
         goarch: [amd64]
     steps:
       - uses: bigbird023/github-actions/.github/workflows/go-release-publishToGithub-workflow.yaml@main
+        with:
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
+

@@ -10,15 +10,17 @@ import (
 )
 
 type (
+	//FortifyConverter object
 	FortifyConverter struct {
 		header     []string
 		inputFile  string
 		outputFile string
-		fortifyxml parser.FortifyXMLInterface
+		fortifyxml parser.FortifyXMLParseInterface
 	}
 )
 
-func NewConverter(input string, output string, fxp parser.FortifyXMLInterface) *FortifyConverter {
+//NewConverter creates new converter object/struct
+func NewConverter(input string, output string, fxp parser.FortifyXMLParseInterface) *FortifyConverter {
 	conv := &FortifyConverter{
 		header:     []string{"Iid", "RuleId", "Category", "Folder", "Kingdom", "Abstract", "Friority", "Primary.Filename", "Primary.FilePath", "Primary.LineStart", "Primary.Snippet", "Primary.TargetFunction", "Source.Filename", "Source.FilePath", "Source.LineStart", "Source.Snippet", "Source.TargetFunction"},
 		inputFile:  input,
@@ -28,11 +30,12 @@ func NewConverter(input string, output string, fxp parser.FortifyXMLInterface) *
 	return conv
 }
 
+//Convert - main converter function
 func (c *FortifyConverter) Convert() error {
 	excelFile := xlsx.New()
 	sheet := excelFile.AddSheet("fortifyIssues")
 
-	reportDefinition, err := c.fortifyxml.XmlParse(c.inputFile)
+	reportDefinition, err := c.fortifyxml.XMLParse(c.inputFile)
 	if err != nil {
 		return err
 	}

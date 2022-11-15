@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
@@ -29,7 +25,7 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		fxp := parser.NewFortifyXmlParser()
+		fxp := parser.NewFortifyXMLParser()
 		c := converter.NewConverter(cfgInput, cfgOutput, fxp)
 		err := c.Convert()
 		if err != nil {

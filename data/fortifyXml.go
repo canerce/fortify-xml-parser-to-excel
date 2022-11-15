@@ -3,6 +3,7 @@ package data
 import "encoding/xml"
 
 type (
+	//ReportDefinition main xml tag struct for storing
 	ReportDefinition struct {
 		XMLName       xml.Name `xml:"ReportDefinition"`
 		Text          string   `xml:",chardata"`
@@ -58,6 +59,7 @@ type (
 		} `xml:"ReportSection"`
 	}
 
+	//Issue struct for storing issues inside xml document
 	Issue struct {
 		Text     string   `xml:",chardata"`
 		Iid      string   `xml:"iid,attr"`
@@ -71,6 +73,7 @@ type (
 		Source   CodeInfo `xml:"Source"`
 	}
 
+	//CodeInfo struct for storing issues inside xml document
 	CodeInfo struct {
 		Text           string `xml:",chardata"`
 		FileName       string `xml:"FileName"`
@@ -79,6 +82,7 @@ type (
 		Snippet        string `xml:"Snippet"`
 		TargetFunction string `xml:"TargetFunction"`
 	}
+	//Source struct for storing issues inside xml document
 	Source struct {
 		Text           string `xml:",chardata"`
 		FileName       string `xml:"FileName"`

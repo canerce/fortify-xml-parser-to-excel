@@ -8,9 +8,9 @@ func TestXmlParseBadFile(t *testing.T) {
 
 	cfgInput := "../local/examples/testBadFile.xml"
 
-	fxp := NewFortifyXmlParser()
+	fxp := NewFortifyXMLParser()
 
-	_, err := fxp.XmlParse(cfgInput)
+	_, err := fxp.XMLParse(cfgInput)
 	if err != nil {
 		if err.Error() != "open ../local/examples/testBadFile.xml: no such file or directory" {
 			t.Log(err)
@@ -26,9 +26,9 @@ func TestXmlParseBadFile(t *testing.T) {
 func TestXmlParseEmpty(t *testing.T) {
 
 	cfgInput := "../local/examples/testEmpty.xml"
-	fxp := NewFortifyXmlParser()
+	fxp := NewFortifyXMLParser()
 
-	reportDef, err := fxp.XmlParse(cfgInput)
+	reportDef, err := fxp.XMLParse(cfgInput)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -49,9 +49,9 @@ func TestXmlParseEmpty(t *testing.T) {
 func TestXmlParse(t *testing.T) {
 
 	cfgInput := "../local/examples/test.xml"
-	fxp := NewFortifyXmlParser()
+	fxp := NewFortifyXMLParser()
 
-	reportDef, err := fxp.XmlParse(cfgInput)
+	reportDef, err := fxp.XMLParse(cfgInput)
 	if err != nil {
 		t.Log(err)
 		t.Fail()

@@ -5,18 +5,21 @@ import (
 	"io"
 )
 
-type MockPackage struct {
+//Package mock of io.Closer and other information for testing
+type Package struct {
 	io.Closer
 	SaveCalled      bool
 	SaveAsInterface interface{}
 	ForceError      bool
 }
 
-func NewMockPackage() *MockPackage {
-	return &MockPackage{}
+//NewPackage creates new package
+func NewPackage() *Package {
+	return &Package{}
 }
 
-func (m *MockPackage) Save() error {
+//Save - mocked
+func (m *Package) Save() error {
 	if m.ForceError {
 		return fmt.Errorf("error forced")
 	}
@@ -24,7 +27,8 @@ func (m *MockPackage) Save() error {
 	return nil
 }
 
-func (m *MockPackage) SaveAs(target interface{}) error {
+//SaveAs - mocked
+func (m *Package) SaveAs(target interface{}) error {
 	if m.ForceError {
 		return fmt.Errorf("error forced")
 	}

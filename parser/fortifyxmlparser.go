@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package parser
 
 import (
@@ -13,19 +9,23 @@ import (
 )
 
 type (
-	FortifyXMLInterface interface {
-		XmlParse(inputFile string) (*data.ReportDefinition, error)
+	//FortifyXMLParseInterface interface for fortifyxml
+	FortifyXMLParseInterface interface {
+		XMLParse(inputFile string) (*data.ReportDefinition, error)
 	}
 
-	FortifyXml struct {
+	//FortifyXMLParse - object for fortifyxmlparsing
+	FortifyXMLParse struct {
 	}
 )
 
-func NewFortifyXmlParser() FortifyXMLInterface {
-	return &FortifyXml{}
+//NewFortifyXMLParser create new object
+func NewFortifyXMLParser() FortifyXMLParseInterface {
+	return &FortifyXMLParse{}
 }
 
-func (f *FortifyXml) XmlParse(inputFile string) (*data.ReportDefinition, error) {
+//XMLParse parsing xml into go struct
+func (f *FortifyXMLParse) XMLParse(inputFile string) (*data.ReportDefinition, error) {
 
 	// Open xmlFile
 	xmlFile, err := os.Open(inputFile)

@@ -110,11 +110,11 @@ func TestHeaderAndIssueToExcel(t *testing.T) {
 func TestWriteToExcel(t *testing.T) {
 
 	expected := "./local/output/testwritetoexcel.xlsx"
-	fxp := parser.NewFortifyXmlParser()
+	fxp := parser.NewFortifyXMLParser()
 
 	c := NewConverter("", expected, fxp)
 
-	excelFile := mock.NewMockPackage()
+	excelFile := mock.NewPackage()
 
 	err := c.writeExcelToFile(excelFile)
 	if err != nil {
@@ -132,11 +132,11 @@ func TestWriteToExcel(t *testing.T) {
 func TestWriteToExcelError(t *testing.T) {
 
 	expected := "./local/output/testwritetoexcel.xlsx"
-	fxp := parser.NewFortifyXmlParser()
+	fxp := parser.NewFortifyXMLParser()
 
 	c := NewConverter("", expected, fxp)
 
-	excelFile := mock.NewMockPackage()
+	excelFile := mock.NewPackage()
 	excelFile.ForceError = true
 
 	err := c.writeExcelToFile(excelFile)
@@ -151,7 +151,7 @@ func TestConvertInputError(t *testing.T) {
 
 	expectedInput := "./local/test/testmissing.xml"
 	expectedOutput := "./local/output/testwritetoexcel.xlsx"
-	fxp := parser.NewFortifyXmlParser()
+	fxp := parser.NewFortifyXMLParser()
 
 	c := NewConverter(expectedInput, expectedOutput, fxp)
 
@@ -181,7 +181,7 @@ func TestConvertOutputError(t *testing.T) {
 		}
 	}
 
-	fxp := mock.NewMockFortifyXMLParser()
+	fxp := mock.NewFortifyXMLParser()
 
 	c := NewConverter("", expectedOutput, fxp)
 
@@ -211,7 +211,7 @@ func TestConvertIssueToExcelError(t *testing.T) {
 		}
 	}
 
-	fxp := mock.NewMockFortifyXMLParser()
+	fxp := mock.NewFortifyXMLParser()
 	fxp.EmptyReportDefinition = true
 
 	c := NewConverter("", expectedOutput, fxp)

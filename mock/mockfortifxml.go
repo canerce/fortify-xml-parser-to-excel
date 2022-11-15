@@ -7,19 +7,22 @@ import (
 	"github.com/bigbird023/fortify-xml-parser-to-excel/data"
 )
 
-type MockFortifyXmlParser struct {
+//FortifyXMLParser struct for mocking object
+type FortifyXMLParser struct {
 	EmptyReportDefinition bool
 	ForceError            bool
 }
 
-func NewMockFortifyXMLParser() *MockFortifyXmlParser {
-	return &MockFortifyXmlParser{
+//NewFortifyXMLParser creates new object/struct
+func NewFortifyXMLParser() *FortifyXMLParser {
+	return &FortifyXMLParser{
 		EmptyReportDefinition: false,
 		ForceError:            false,
 	}
 }
 
-func (m *MockFortifyXmlParser) XmlParse(inputFile string) (*data.ReportDefinition, error) {
+//XMLParse parsing of xml document
+func (m *FortifyXMLParser) XMLParse(inputFile string) (*data.ReportDefinition, error) {
 	if m.ForceError {
 		return nil, fmt.Errorf("forced error")
 	}
@@ -27,13 +30,13 @@ func (m *MockFortifyXmlParser) XmlParse(inputFile string) (*data.ReportDefinitio
 	if m.EmptyReportDefinition {
 		rd = &data.ReportDefinition{}
 	} else {
-		rd = NewReportDefinition()
+		rd = newReportDefinition()
 	}
 
 	return rd, nil
 }
 
-func NewReportDefinition() *data.ReportDefinition {
+func newReportDefinition() *data.ReportDefinition {
 
 	xmlDoc := `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 	<ReportDefinition type="standard">

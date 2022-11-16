@@ -39,7 +39,7 @@ func TestXmlParseEmpty(t *testing.T) {
 		t.Fail()
 	}
 
-	if len(reportDef.ReportSection) != 0 {
+	if reportDef != nil && len(reportDef.ReportSection) != 0 {
 		t.Log("ReportSection length should be 0")
 		t.Fail()
 	}
@@ -62,7 +62,7 @@ func TestXmlParse(t *testing.T) {
 		t.Fail()
 	}
 
-	if len(reportDef.ReportSection) == 0 {
+	if reportDef != nil && len(reportDef.ReportSection) == 0 {
 		t.Log("ReportSection length should not be 0")
 		t.Fail()
 	}

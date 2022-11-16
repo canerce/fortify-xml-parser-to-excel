@@ -2,7 +2,7 @@ package parser
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/bigbird023/fortify-xml-parser-to-excel/data"
@@ -37,7 +37,7 @@ func (f *FortifyXMLParse) XMLParse(inputFile string) (*data.ReportDefinition, er
 	defer xmlFile.Close()
 
 	// read our opened xmlFile as a byte array.
-	byteValue, _ := ioutil.ReadAll(xmlFile)
+	byteValue, _ := io.ReadAll(xmlFile)
 
 	// we initialize our Users array
 	var reportDefinition data.ReportDefinition

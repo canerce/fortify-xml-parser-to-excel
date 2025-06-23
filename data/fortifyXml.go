@@ -71,6 +71,14 @@ type (
 		Friority string   `xml:"Friority"`
 		Primary  CodeInfo `xml:"Primary"`
 		Source   CodeInfo `xml:"Source"`
+		Tag struct {
+                        Name  string `xml:"Name"`
+                        Value string `xml:"Value"`
+                } `xml:"Tag"`
+                CommentList []struct {
+                        UserInfo string `xml:"UserInfo"`
+                        Comment  string `xml:"Comment"`
+                } `xml:"Comment"`
 	}
 
 	//CodeInfo struct for storing issues inside xml document

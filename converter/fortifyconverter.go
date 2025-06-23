@@ -22,7 +22,7 @@ type (
 //NewConverter creates new converter object/struct
 func NewConverter(input string, output string, fxp parser.FortifyXMLParseInterface) *FortifyConverter {
 	conv := &FortifyConverter{
-		header:     []string{"Iid", "RuleId", "Category", "Folder", "Kingdom", "Abstract", "Friority", "Primary.Filename", "Primary.FilePath", "Primary.LineStart", "Primary.Snippet", "Primary.TargetFunction", "Source.Filename", "Source.FilePath", "Source.LineStart", "Source.Snippet", "Source.TargetFunction"},
+		header:     []string{"Iid", "RuleId", "Category", "Folder", "Kingdom", "Abstract", "Friority", "Primary.Filename", "Primary.FilePath", "Primary.LineStart", "Primary.Snippet", "Primary.TargetFunction", "Source.Filename", "Source.FilePath", "Source.LineStart", "Source.Snippet", "Source.TargetFunction", "Analysis", "LastComment"},
 		inputFile:  input,
 		outputFile: output,
 		fortifyxml: fxp,
@@ -71,7 +71,7 @@ func (c *FortifyConverter) headerToExcel(sheet xlsx.Sheet) {
 
 	row := sheet.Row(0)
 
-	headers := [17]string{"Iid", "RuleId", "Category", "Folder", "Kingdom", "Abstract", "Friority", "Primary.Filename", "Primary.FilePath", "Primary.LineStart", "Primary.Snippet", "Primary.TargetFunction", "Source.Filename", "Source.FilePath", "Source.LineStart", "Source.Snippet", "Source.TargetFunction"}
+	headers := [19]string{"Iid", "RuleId", "Category", "Folder", "Kingdom", "Abstract", "Friority", "Primary.Filename", "Primary.FilePath", "Primary.LineStart", "Primary.Snippet", "Primary.TargetFunction", "Source.Filename", "Source.FilePath", "Source.LineStart", "Source.Snippet", "Source.TargetFunction", "Analysis", "LastComment"}
 
 	for p, v := range headers {
 		cell := row.Cell(p)
@@ -107,7 +107,20 @@ func (c *FortifyConverter) issueToExcel(issue *data.Issue, sheet xlsx.Sheet) err
 	c.setNextCell(&col, row, issue.Source.LineStart)
 	c.setNextCell(&col, row, issue.Source.Snippet)
 	c.setNextCell(&col, row, issue.Source.TargetFunction)
+	// New: Analysis value from Tag
+	analysis := ""
+	if issue.Tag.Name == "Analysis" {
+		analysis = issue.Tag.Value
+	}
+	c.setNextCell(&col, row, analysis)
 
+	// New: Last comment text
+	lastComment := ""
+	if len(issue.CommentList) > 0 {
+		lastComment = issue.CommentList[len(issue.CommentList)-1].Comment
+	}
+	c.setNextCell(&col, row, lastComment)
+	
 	return nil
 }
 

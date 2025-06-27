@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ReportDefinition type="xml">
+    <TemplateName>fullreport</TemplateName>
+    <TemplatePath>.\fullreport.xml</TemplatePath>
+    <LogoPath>/OT_logo.png</LogoPath>
+    <Footnote>Copyright 2024 Open Text.</Footnote>
+    <UserName>caner.erce</UserName>
+    <ReportSection enabled="true" optionalSubsections="false">
+        <Title>Results Outline</Title>
+        <SubSection enabled="true">
+            <Title>Vulnerability by Category</Title>
+            <Description>Results summary of all issue categories. Vulnerabilities are provided by category.</Description>
+            <IssueListing listing="true" limit="-1" showShortFileNames="true">
+                <Refinement></Refinement>
+                <Chart chartType="list">
+                    <Axis>Category</Axis>
+                    <MajorAttribute>Analysis</MajorAttribute>
+                </Chart>
+            </IssueListing>
+        </SubSection>
+    </ReportSection>
+</ReportDefinition>
